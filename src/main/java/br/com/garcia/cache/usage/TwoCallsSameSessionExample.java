@@ -8,20 +8,21 @@ import br.com.garcia.cache.model.Person;
 public class TwoCallsSameSessionExample {
 
     public static void main(String[] args) {
-        Session session = HibernateUtil.getSessionFactory().openSession();
+        Session sessionOne = HibernateUtil.getSessionFactory().openSession();
+        Session sessionTwo = HibernateUtil.getSessionFactory().openSession();
         
-        session.beginTransaction();
+        sessionOne.beginTransaction();
+        sessionTwo.beginTransaction();
         
-        Person person = (Person) session.load(Person.class, 1);
+        System.out.println((Person) sessionOne.load(Person.class, 1));
+        System.out.println((Person) sessionOne.load(Person.class, 1));
         
-        System.out.println(person);
+        System.out.println((Person) sessionTwo.load(Person.class, 1));
         
-        person = (Person) session.load(Person.class, 1);
         
-        System.out.println(person);
-        
-        session.getTransaction().commit();
-        
+        sessionOne.getTransaction().commit();
+        HibernateUtil.shutdown();
+        sessionTwo.getTransaction().commit();
         HibernateUtil.shutdown();
     }
 }
