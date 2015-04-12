@@ -5,7 +5,7 @@ import org.hibernate.Session;
 import br.com.garcia.cache.HibernateUtil;
 import br.com.garcia.cache.model.Person;
 
-public class SessionTest {
+public class TwoCallsSameSessionExample {
 
     public static void main(String[] args) {
         Session session = HibernateUtil.getSessionFactory().openSession();
@@ -14,11 +14,11 @@ public class SessionTest {
         
         Person person = (Person) session.load(Person.class, 1);
         
-        System.out.println("Person name: " + person.getName());
+        System.out.println(person);
         
         person = (Person) session.load(Person.class, 1);
         
-        System.out.println("Person name: " + person.getName());
+        System.out.println(person);
         
         session.getTransaction().commit();
         
